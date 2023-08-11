@@ -23,6 +23,10 @@ android {
 
         python{
             version "3.10"
+
+            pip{
+                install "pytube"
+            }
         }
     }
 
