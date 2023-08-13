@@ -1,10 +1,16 @@
 from pytube import YouTube
+from moviepy.editor import *
+
 
 def download(link, path):
     youtubeObject = YouTube(link)
-    youtubeObject = youtubeObject.streams.get_lowest_resolution()
+    youtubeObject = youtubeObject.streams.get_highest_resolution()
     try:
         youtubeObject.download(path)
     except:
         print("An error has occurred")
-    print("Download is completed successfully")
+
+def convertToAudio(path):
+    video = VideoFileClip(path)
+    video.audio.write_audiofile(path)
+
