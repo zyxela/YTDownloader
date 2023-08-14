@@ -27,7 +27,7 @@ android {
             pip{
                 install "pytube"
                 install "moviepy"
-
+                install "ffmpeg"
             }
         }
     }
