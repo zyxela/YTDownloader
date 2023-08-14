@@ -1,7 +1,7 @@
 # TODO
-use mobile ffmpeg to convert mp4 to mp3
+Use mobile ffmpeg to convert mp4 to mp3
 
-handling exceptions
+Handling exceptions
 
 # YTDownloader
 An android app which use python libs
