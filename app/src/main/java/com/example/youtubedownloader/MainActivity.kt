@@ -2,7 +2,6 @@ package com.example.youtubedownloader
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Environment
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.chaquo.python.Python
@@ -22,11 +21,13 @@ class MainActivity : AppCompatActivity() {
         val module = pythonObj.getModule("downloader")
 
         findViewById<Button>(R.id.mp4).setOnClickListener {
+            val link = "https://www.youtube.com/watch?v=aQNrG7ag2G4"
             GlobalScope.launch {
                 module.callAttr(
-                    "download", "https://www.youtube.com/watch?v=ex9tML6udCU",
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    "download", link,
+                    filesDir.absolutePath
                 )
+
             }
 
         }
