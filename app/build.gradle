@@ -26,6 +26,7 @@ android {
 
             pip{
                 install "git+https://github.com/ytdl-org/youtube-dl"
+                install "moviepy"
             }
         }
     }

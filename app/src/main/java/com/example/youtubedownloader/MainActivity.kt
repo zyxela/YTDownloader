@@ -24,26 +24,26 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.mp4).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
-            Toast.makeText(this,"Start downloading", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
-            try{
+            try {
                 module.callAttr(
                     "download", link,
                     filesDir.absolutePath
                 )
-                Toast.makeText(this,"Downloaded", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Downloaded", Toast.LENGTH_SHORT).show()
 
-            }
-            catch (e: Exception){
-                Toast.makeText(this,"INCORRECT LINK", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
             }
 
         }
 
         findViewById<Button>(R.id.mp3).setOnClickListener {
+            val link = findViewById<TextView>(R.id.tv_link).text.toString()
             GlobalScope.launch {
                 module.callAttr(
-                    "convertToAudio", filesDir.absolutePath
+                    "convertToAudio", link, filesDir.absolutePath
                 )
             }
         }
