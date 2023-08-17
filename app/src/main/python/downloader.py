@@ -12,17 +12,16 @@ def download(link, path):
 
     }
     with yt.YoutubeDL(ydl_opts) as ydl:
-       # info_dict = ydl.extract_info(link, download=False)
-       # video_title = str(info_dict.get('title', None))
+        # info_dict = ydl.extract_info(link, download=False)
+        # video_title = str(info_dict.get('title', None))
         ydl.download([link])
-        #return video_title
+    # return video_title
 
 
 def convertToAudio(link, path):
     from com.arthenica.mobileffmpeg import FFmpeg
-    import subprocess
-
-
-   # title = download(link, path)
-    subprocess.run("ffmpeg -i "+path+"/"+"Shortest Video on Youtube"+".mp4"+" "+"Shortest Video on Youtube"+".mp3",shell=True)
-
+    from android.os import Environment
+    # title = download(link, path)
+    FFmpeg.execute("-i " + str(
+        Environment.getExternalStorageDirectory()) + "/Download/ytdl/Shrt.mp4" + " -ab 320000 -vn " + str(
+        Environment.getExternalStorageDirectory()) + "Sh.mp3")

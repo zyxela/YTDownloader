@@ -2,14 +2,13 @@ package com.example.youtubedownloader
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -41,11 +40,16 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.mp3).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
-            GlobalScope.launch {
+            try {
                 module.callAttr(
-                    "convertToAudio", link, filesDir.absolutePath
+                    "convertToAudio", link, ""
                 )
+            }catch (e: Exception) {
+                Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
+                Log.i("e",e.message!!)
             }
+
+
         }
 
 
