@@ -23,5 +23,7 @@ def convertToAudio(link, path):
     from android.os import Environment
     # title = download(link, path)
     FFmpeg.execute("-i " + str(
-        Environment.getExternalStorageDirectory()) + "/Download/ytdl/Shrt.mp4" + " -ab 320000 -vn " + str(
+        Environment.getExternalStorageDirectory()) + "/Download/ytdl/Shrt.mp4" + " -vn -acodec libmp3lame -q:a 0 " + str(
         Environment.getExternalStorageDirectory()) + "Sh.mp3")
+    print(str(
+        Environment.getExternalStorageDirectory()) + "/Download/ytdl/%(title)s.%(ext)s")
