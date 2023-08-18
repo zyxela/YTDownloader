@@ -1,10 +1,5 @@
-# TODO
-Use mobile ffmpeg to convert mp4 to mp3
-
-Handling exceptions
-
 # YTDownloader
-An android app which use python libs
+An android app which use python libs for download video and convert it to mp3 format (adventage is avaible in Anddroid 13)
 # Technolgy Stack
 To add python code into Kotlin/Java code is uses chaquopy library 
 To downlowd video is uses yt-dl and to convert it into mp3 format uses moviepy
