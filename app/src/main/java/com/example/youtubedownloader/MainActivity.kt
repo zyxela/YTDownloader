@@ -26,10 +26,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
             try {
-                module.callAttr(
-                    "download", link,
-                    filesDir.absolutePath
-                )
+                module.callAttr("start", link, "video")
+
                 Toast.makeText(this, "Downloaded", Toast.LENGTH_SHORT).show()
 
             } catch (e: Exception) {
@@ -41,12 +39,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.mp3).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             try {
-                module.callAttr(
-                    "convertToAudio", link, ""
-                )
-            }catch (e: Exception) {
+                module.callAttr("start", link, "audio")
+            } catch (e: Exception) {
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
-                Log.i("e",e.message!!)
+                Log.i("e", e.message!!)
             }
 
 
