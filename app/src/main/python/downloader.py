@@ -24,9 +24,10 @@ class Downloader:
             ydl.download([link])
             print(video_title)
             if len(self.file) == 2:
-                lastName = "\"" + str(
-                    Environment.getExternalStorageDirectory()) + "/Download/ytdl/" + video_title + ".mp4\""
-                FFmpeg.execute("-i \"" + self.file[0] + "\" -i  \"" + self.file[
+                folder = str( Environment.getExternalStorageDirectory()) + "/Download/ytdl/"
+                lastName = "\"" + folder + video_title + ".mp4"
+
+                FFmpeg.execute("-i \"" + folder+self.file[0] + "\" -i  \"" + folder/self.file[
                     1] + "\" -c:v copy -c:a aac " + lastName)
                 os.remove(self.file[0])
                 os.remove(self.file[1])
