@@ -2,6 +2,12 @@ class Downloader:
     def __init__(self):
         self.file = []
 
+    def hook(self, downloading):
+        if downloading["status"] == "finished":
+            self.file.append(downloading["filename"])
+        if downloading["status"] == "downloading":
+            pass
+
     def download(self, link):
         import os
         import youtube_dl as yt
@@ -20,29 +26,25 @@ class Downloader:
         }
         with yt.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
-            video_title = str(info_dict.get('title', None))
+            video_title = str(info_dict.get('title', None)).replace(" ", "_")# NOTICE FOR READERS: ffmpeg cannot work with files where spaces in a filename
             ydl.download([link])
             print(video_title)
             if len(self.file) == 2:
-                folder = str( Environment.getExternalStorageDirectory()) + "/Download/ytdl/"
-                lastName = "\"" + folder + video_title + ".mp4"
-
-                FFmpeg.execute("-i \"" + folder+self.file[0] + "\" -i  \"" + folder/self.file[
-                    1] + "\" -c:v copy -c:a aac " + lastName)
+                folder = str(Environment.getExternalStorageDirectory()) + "/Download/ytdl/"
+                last_name = folder + video_title + ".mp4"
+                print(last_name)
+                print(self.file[0])
+                print(self.file[1])
+                FFmpeg.execute("-i " + self.file[0] + " -i " + self.file[
+                    1] + " -c:v copy -c:a aac " + last_name)
                 os.remove(self.file[0])
                 os.remove(self.file[1])
             return video_title
 
-    def hook(self, downloading):
-        if downloading["status"] == "finished":
-            self.file.append(downloading["filename"])
-        if downloading["status"] == "downloading":
-            pass
-
     def convertToAudio(self, link):
         from com.arthenica.mobileffmpeg import FFmpeg
         from android.os import Environment
-        title = download(link)
+        title = self.download(link)
         FFmpeg.execute("-i " + str(
             Environment.getExternalStorageDirectory()) + "/Download/ytdl/" + title + ".mp4" + " -vn -acodec libmp3lame -q:a 0 " + str(
             Environment.getExternalStorageDirectory()) + "/Download/ytdl/" + title + ".mp3")
