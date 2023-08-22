@@ -36,6 +36,7 @@
         android:ems="10"
         android:hint="input youtube url"
         android:inputType="text"
+        android:text="https://www.youtube.com/watch?v=QC8iQqtG0hg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.ACTION_CREATE_DOCUMENT" />
     <uses-permission android:name="android.permission.ACTION_OPEN_DOCUMENT" />
     <uses-permission android:name="android.permission.ACTION_GET_CONTENT" />
-    <uses-permission android:name="android.permission.HIDE_S"/>
 
 
     <application

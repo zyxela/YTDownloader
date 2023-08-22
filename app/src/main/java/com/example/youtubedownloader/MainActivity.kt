@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.mp3).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             try {
+                Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
+
                 module.callAttr("start", link, "audio")
             } catch (e: Exception) {
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
