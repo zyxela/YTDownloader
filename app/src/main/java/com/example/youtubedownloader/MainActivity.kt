@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +21,13 @@ class MainActivity : AppCompatActivity() {
 
         val pythonObj = Python.getInstance()
         val module = pythonObj.getModule("downloader")
-
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         findViewById<Button>(R.id.mp4).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
             try {
-                module.callAttr("start", link, "video")
+                module.callAttr("start", link, "video", progressBar)
 
                 Toast.makeText(this, "Downloaded", Toast.LENGTH_SHORT).show()
 
@@ -35,13 +36,12 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
         findViewById<Button>(R.id.mp3).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             try {
                 Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
-                module.callAttr("start", link, "audio")
+                module.callAttr("start", link, "audio", progressBar)
             } catch (e: Exception) {
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
                 Log.i("e", e.message!!)

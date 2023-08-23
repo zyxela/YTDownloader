@@ -1,12 +1,17 @@
 class Downloader:
     def __init__(self):
         self.file = []
+        self.progress_bar = None
 
     def hook(self, downloading):
         if downloading["status"] == "finished":
             self.file.append(downloading["filename"])
         if downloading["status"] == "downloading":
+            self.current_statement(downloading["percentage"])
             pass
+
+    def current_statement(self, progress):
+        self.progress_bar.setProgress(progress)
 
     def download(self, link):
         import os
@@ -44,8 +49,10 @@ class Downloader:
             Environment.getExternalStorageDirectory()) + "/Download/ytdl/" + "audio.mp3")
         os.remove(self.file[2])
 
-def start(link, action):
+
+def start(link, action, progress_bar):
     downloader = Downloader()
+    downloader.progress_bar = progress_bar
     if action == "v" or action == "video":
         downloader.download(link)
     else:
