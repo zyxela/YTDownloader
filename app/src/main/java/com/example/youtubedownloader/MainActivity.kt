@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 
@@ -18,17 +19,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (!Python.isStarted()) Python.start(AndroidPlatform(this))
-
         val pythonObj = Python.getInstance()
-        val module = pythonObj.getModule("downloader")
+
+        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val module = pythonObj.getModule("downloader")
+
+        viewModel.currentProcess.observe(this) {
+            progressBar.progress = viewModel.currentProcess.value ?: 0
+        }
+
         findViewById<Button>(R.id.mp4).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
             try {
-                module.callAttr("start", link, "video", progressBar)
-
+                module.callAttr("start", link, "video", viewModel)
                 Toast.makeText(this, "Downloaded", Toast.LENGTH_SHORT).show()
 
             } catch (e: Exception) {
@@ -41,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
-                module.callAttr("start", link, "audio", progressBar)
+                module.callAttr("start", link, "audio")
             } catch (e: Exception) {
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
                 Log.i("e", e.message!!)
