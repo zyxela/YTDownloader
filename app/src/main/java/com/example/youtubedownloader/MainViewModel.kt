@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
-
-    val currentProcess: MutableLiveData<Int> by lazy {
+    val currentProgress: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
     }
 
     init {
-        currentProcess.value = 0
+        currentProgress.value = 0
     }
+
 
 
 }

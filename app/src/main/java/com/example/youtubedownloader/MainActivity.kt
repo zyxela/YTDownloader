@@ -9,10 +9,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.chaquo.python.PyObject
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
+    lateinit var progressBar: ProgressBar
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,12 +28,14 @@ class MainActivity : AppCompatActivity() {
         if (!Python.isStarted()) Python.start(AndroidPlatform(this))
         val pythonObj = Python.getInstance()
 
-        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val module = pythonObj.getModule("downloader")
-
-        viewModel.currentProcess.observe(this) {
-            progressBar.progress = viewModel.currentProcess.value ?: 0
+        val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        GlobalScope.launch {
+            updateProgress(module)
+        }
+        viewModel.currentProgress.observe(this) {
+            progressBar.progress = viewModel.currentProgress.value ?: 0
         }
 
         findViewById<Button>(R.id.mp4).setOnClickListener {
@@ -34,10 +43,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
 
             try {
-                module.callAttr("start", link, "video", viewModel)
-                Toast.makeText(this, "Downloaded", Toast.LENGTH_SHORT).show()
+                GlobalScope.launch {
+                    module.callAttr("start", link, "video")
+                    Toast.makeText(applicationContext, "Downloaded", Toast.LENGTH_SHORT).show()
+                }
 
             } catch (e: Exception) {
+                Log.e("CONNECT", "${e.message}")
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
             }
 
@@ -46,16 +58,26 @@ class MainActivity : AppCompatActivity() {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             try {
                 Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
-
-                module.callAttr("start", link, "audio")
+                GlobalScope.launch {
+                    module.callAttr("start", link, "audio")
+                }
             } catch (e: Exception) {
                 Toast.makeText(this, "INCORRECT LINK", Toast.LENGTH_LONG).show()
                 Log.i("e", e.message!!)
             }
 
-
         }
 
+    }
 
+    fun updateProgress(module: PyObject) = runBlocking {
+        val downloader = module["downloader"]
+
+        launch {
+            while (true) {
+                progressBar.progress = downloader!!.callAttr("return_progress_statement").toInt()
+                delay(10)
+            }
+        }
     }
 }

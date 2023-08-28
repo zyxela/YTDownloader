@@ -3,12 +3,14 @@ class Downloader:
         self.file = []
         self.current_statement = 0
 
+    def return_progress_statement(self):
+        return self.current_statement
     def hook(self, downloading):
         if downloading["status"] == "finished":
             self.file.append(downloading["filename"])
         if downloading["status"] == "downloading":
             self.current_statement = int(
-                downloading["downloaded_bytes"] / downloading["total_bytes_estimate"]) * 100
+                downloading["downloaded_bytes"] / downloading["total_bytes_estimate"] * 100)
             pass
 
     def download(self, link):
@@ -47,9 +49,8 @@ class Downloader:
             Environment.getExternalStorageDirectory()) + "/Download/ytdl/" + "audio.mp3")
         os.remove(self.file[2])
 
-
+downloader = Downloader()
 def start(link, action):
-    downloader = Downloader()
     if action == "v" or action == "video":
         downloader.download(link)
     else:
