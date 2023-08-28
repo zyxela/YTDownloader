@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.chaquo.python.PyObject
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MainViewModel : ViewModel() {
@@ -25,5 +26,15 @@ class MainViewModel : ViewModel() {
 
     }
 
+    fun startVideoDownloading(module: PyObject, link: String) = runBlocking{
+        launch {
+            module.callAttr("start", link, "video")
+        }
+    }
+    fun startAudioDownloading(module: PyObject, link: String) = runBlocking{
+        launch {
+            module.callAttr("start", link, "audio")
+        }
+    }
 
 }

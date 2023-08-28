@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
             try {
                 GlobalScope.launch {
-                    module.callAttr("start", link, "video")
-                    withContext(Dispatchers.Main){
+                    viewModel.startVideoDownloading(module, link)
+                    withContext(Dispatchers.Main) {
                         Toast.makeText(it.context, "Downloaded", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -59,8 +59,8 @@ class MainActivity : AppCompatActivity() {
             try {
                 Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
                 GlobalScope.launch {
-                    module.callAttr("start", link, "audio")
-                    withContext(Dispatchers.Main){
+                    viewModel.startAudioDownloading(module, link)
+                    withContext(Dispatchers.Main) {
                         Toast.makeText(it.context, "Downloaded", Toast.LENGTH_SHORT).show()
                     }
                 }
