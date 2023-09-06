@@ -13,11 +13,13 @@ import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
-    lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: ProgressBar
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +38,15 @@ class MainActivity : AppCompatActivity() {
         viewModel.currentProgress.observe(this) {
             progressBar.progress = viewModel.currentProgress.value ?: 0
         }
-
+        var file: Job? = null;
         findViewById<Button>(R.id.mp4).setOnClickListener {
             val link = findViewById<TextView>(R.id.tv_link).text.toString()
             Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
             try {
                 GlobalScope.launch {
-                    viewModel.startVideoDownloading(module, link)
+
                     withContext(Dispatchers.Main) {
+                        file = viewModel.startVideoDownloading(module, link)
                         Toast.makeText(it.context, "Downloaded", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 Toast.makeText(this, "Start downloading", Toast.LENGTH_SHORT).show()
                 GlobalScope.launch {
-                    viewModel.startAudioDownloading(module, link)
+                    file  = viewModel.startAudioDownloading(module, link)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(it.context, "Downloaded", Toast.LENGTH_SHORT).show()
                     }
@@ -69,6 +72,15 @@ class MainActivity : AppCompatActivity() {
                 Log.i("e", e.message!!)
             }
 
+        }
+
+        findViewById<Button>(R.id.cancel).setOnClickListener {
+            runBlocking {
+                launch {
+                    file?.cancel()
+                    //file = null
+                }
+            }
         }
 
     }

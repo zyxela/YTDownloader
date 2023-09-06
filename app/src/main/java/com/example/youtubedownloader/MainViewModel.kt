@@ -26,15 +26,16 @@ class MainViewModel : ViewModel() {
 
     }
 
-    fun startVideoDownloading(module: PyObject, link: String) = runBlocking{
+    suspend fun startVideoDownloading(module: PyObject, link: String) = runBlocking{
         launch {
             module.callAttr("start", link, "video")
         }
     }
-    fun startAudioDownloading(module: PyObject, link: String) = runBlocking{
+    suspend fun startAudioDownloading(module: PyObject, link: String) = runBlocking{
         launch {
             module.callAttr("start", link, "audio")
         }
     }
+
 
 }
