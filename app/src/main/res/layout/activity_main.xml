@@ -8,64 +8,66 @@
 
     <Button
         android:id="@+id/mp3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp"
-        android:text="download MP3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.MaterialComponents.Button.Audio"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/mp3_button"
+        android:text="@string/download_mp3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mp4" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/mp4"
+        app:layout_constraintTop_toBottomOf="@+id/tv_link" />
 
     <Button
         android:id="@+id/mp4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="download MP4"
-        app:layout_constraintBottom_toTopOf="@+id/mp3"
-        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.Button.Video"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/mp4_button"
+        android:text="@string/download_mp4"
+        app:layout_constraintEnd_toStartOf="@+id/mp3"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_link"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_link" />
 
     <EditText
         android:id="@+id/tv_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="324dp"
+        android:background="@drawable/custom_edit_text"
         android:ems="10"
-        android:hint="input youtube url"
+        android:hint="@string/input_youtube_url"
         android:inputType="text"
+        android:textAlignment="center"
+        android:textColorHint="#B5A3A3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.282"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="376dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="632dp"
-        android:layout_marginBottom="23dp"
-        app:layout_constraintBottom_toTopOf="@+id/cancel"
+        android:layout_width="335dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="196dp"
+        android:progressDrawable="@drawable/custom_progress_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_link" />
 
     <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp"
-        android:text="cancel"
-        android:textColor="#000000"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorLink="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+        android:id="@+id/clear_link"
+        style="@style/Widget.MaterialComponents.Button.Clear"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:background="@drawable/custom_clear_button"
+        android:text="྾"
+        app:layout_constraintStart_toEndOf="@+id/tv_link"
+        app:layout_constraintTop_toTopOf="@+id/tv_link" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">YouTubeDownloader</string>
+    <string name="download_mp4">MP4</string>
+    <string name="download_mp3">MP3</string>
+    <string name="input_youtube_url">Input youtube url</string>
 </resources>

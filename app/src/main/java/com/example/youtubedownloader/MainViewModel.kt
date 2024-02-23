@@ -1,41 +1,47 @@
 package com.example.youtubedownloader
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.chaquo.python.PyObject
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MainViewModel : ViewModel() {
-    val currentProgress: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
-    }
 
-    init {
-        currentProgress.value = 0
-    }
+    val currentProgress = MutableStateFlow<Int>(0)
+var p = 0
+    //    https://www.youtube.com/watch?v=ScNNfyq3d_w
+    private var job: Job? = null
 
-    fun updateProgress(module: PyObject) = runBlocking {
-        val downloader = module["downloader"]
-
-        while (true) {
-            currentProgress.postValue(downloader?.callAttr("return_progress_statement")?.toInt())
-            delay(10)
+    fun updateProgress(module: PyObject) {
+        job = viewModelScope.launch {
+            Thread {
+                while (true) {
+                    val status = module.callAttr("r")
+                    val value = status.toInt()
+                    currentProgress.value = value
+                    p = value
+                }
+            }.start()
         }
 
     }
 
-    suspend fun startVideoDownloading(module: PyObject, link: String) = runBlocking{
-        launch {
+
+    fun startVideoDownloading(module: PyObject, link: String) {
+        viewModelScope.launch {
             module.callAttr("start", link, "video")
         }
     }
-    suspend fun startAudioDownloading(module: PyObject, link: String) = runBlocking{
-        launch {
+
+    fun startAudioDownloading(module: PyObject, link: String) {
+        viewModelScope.launch {
             module.callAttr("start", link, "audio")
         }
     }
 
-
+    fun cancelProgress() {
+        job?.cancel()
+    }
 }

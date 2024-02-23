@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download_mp4">download MP4</string>
+    <string name="download_mp3">download MP3</string>
+    <string name="input_youtube_url">input youtube url</string>
+</resources>
