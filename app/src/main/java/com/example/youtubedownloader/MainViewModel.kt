@@ -11,7 +11,7 @@ class MainViewModel : ViewModel() {
 
     val currentProgress = MutableStateFlow<Int>(0)
 var p = 0
-    //    https://www.youtube.com/watch?v=ScNNfyq3d_w
+  
     private var job: Job? = null
 
     fun updateProgress(module: PyObject) {
